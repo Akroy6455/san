@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Solution and Network</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Arial', sans-serif;
+    }
+    :root {
+      --primary-color: #5166ef;
+      --accent-color: #7c5de2;
+    }
+    body {
+      background: linear-gradient(135deg, #1c1c1c, #2e2e2e);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    .header {
+      height: 80px;
+      padding: 0 5%;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .logo-image {
+      width: 60px;
+      height: 60px;
+      object-fit: contain;
+      border-radius: 50%;
+      border: 2px solid white;
+    }
+    .company-name {
+      color: white;
+      font-size: 1.8rem;
+      font-weight: 700;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    .hero {
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 0 5%;
+      margin-top: 80px;
+    }
+    .hero-content {
+      background: rgba(0, 0, 0, 0.5);
+      padding: 3rem;
+      border-radius: 20px;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transform: translateY(50px);
+      animation: fadeIn 1s forwards;
+    }
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    h1 {
+      font-size: 3.5rem;
+      color: #f1f1f1;
+      margin-bottom: 1rem;
+    }
+    p {
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 1.2rem;
+      line-height: 1.6;
+      margin-bottom: 2rem;
+    }
+    .cta-button {
+      padding: 1rem 2rem;
+      background: var(--accent-color);
+      border: none;
+      border-radius: 30px;
+      color: white;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      -webkit-backdrop-filter: blur(5px);
+      backdrop-filter: blur(5px);
+    }
+    .cta-button:hover {
+      background: #3498DB;
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+    .services {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      padding: 5%;
+      scroll-margin-top: 100px;
+    }
+    .service-card {
+      background: rgba(0, 0, 0, 0.5);
+      padding: 2rem;
+      border-radius: 15px;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: transform 0.3s ease;
+    }
+    .service-card:hover {
+      transform: translateY(-10px);
+    }
+    h3 {
+      color: #f1f1f1;
+      margin-bottom: 1rem;
+    }
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 2.5rem;
+      }
+      .header {
+        padding: 1rem 5%;
+      }
+      .logo-image {
+        width: 50px;
+        height: 50px;
+      }
+      .company-name {
+        font-size: 1.4rem;
+      }
+    }
+
+    /* Footer styles */
+    footer {
+      background: purple;
+      color: white;
+      padding: 2rem 5%;
+      text-align: center;
+      font-size: 0.9rem;
+    }
+
+    /* Animation Card Styles */
+    .animation-card-section {
+      background: purple;
+      color: white;
+      padding: 5% 10%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .parent {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      height: 300px;
+      perspective: 1000px;
+    }
+    .card {
+      height: 100%;
+      border-radius: 50px;
+      background: linear-gradient(135deg, rgb(0, 255, 214) 0%, rgb(8, 62, 226) 100%);
+      transition: all 0.5s ease-in-out;
+      transform-style: preserve-3d;
+      box-shadow: rgba(5, 71, 17, 0) 40px 50px 25px -40px, rgba(5, 71, 17, 0.2) 0px 25px 25px -5px;
+    }
+    .glass {
+      transform-style: preserve-3d;
+      position: absolute;
+      inset: 8px;
+      border-radius: 55px;
+      border-top-right-radius: 100%;
+      background: linear-gradient(0deg, rgba(255, 255, 255, 0.349) 0%, rgba(255, 255, 255, 0.815) 100%);
+      transform: translate3d(0px, 0px, 25px);
+      border-left: 1px solid white;
+      border-bottom: 1px solid white;
+      transition: all 0.5s ease-in-out;
+    }
+    .content {
+      padding: 100px 60px 0px 30px;
+      transform: translate3d(0, 0, 26px);
+    }
+    .content .title {
+      display: block;
+      color: #00894d;
+      font-weight: 900;
+      font-size: 20px;
+    }
+    .content .text {
+      display: block;
+      color: rgba(0, 137, 78, 0.7647058824);
+      font-size: 15px;
+      margin-top: 20px;
+    }
+    .bottom {
+      padding: 10px 12px;
+      transform-style: preserve-3d;
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      right: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transform: translate3d(0, 0, 26px);
+    }
+    .bottom .view-more {
+      display: flex;
+      align-items: center;
+      width: 40%;
+      justify-content: flex-end;
+      transition: all 0.2s ease-in-out;
+    }
+    .bottom .view-more:hover {
+      transform: translate3d(0, 0, 10px);
+    }
+    .bottom .view-more .view-more-button {
+      background: none;
+      border: none;
+      color: #1a00c3;
+      font-weight: bolder;
+      font-size: 12px;
+    }
+    .bottom .view-more .svg {
+      fill: none;
+      stroke: #1a00c3;
+      stroke-width: 3px;
+      max-height: 15px;
+    }
+    .bottom .social-buttons-container {
+      display: flex;
+      gap: 10px;
+      transform-style: preserve-3d;
+    }
+    .bottom .social-buttons-container .social-button {
+      width: 30px;
+      aspect-ratio: 1;
+      padding: 5px;
+      background: rgb(255, 255, 255);
+      border-radius: 50%;
+      border: none;
+      display: grid;
+      place-content: center;
+      box-shadow: rgba(5, 71, 17, 0.5) 0px 7px 5px -5px;
+    }
+    .bottom .social-buttons-container .social-button:first-child {
+      transition: transform 0.2s ease-in-out 0.4s, box-shadow 0.2s ease-in-out 0.4s;
+    }
+    .bottom .social-buttons-container .social-button:nth-child(2) {
+      transition: transform 0.2s ease-in-out 0.6s, box-shadow 0.2s ease-in-out 0.6s;
+    }
+    .bottom .social-buttons-container .social-button:nth-child(3) {
+      transition: transform 0.2s ease-in-out 0.8s, box-shadow 0.2s ease-in-out 0.8s;
+    }
+    .bottom .social-buttons-container .social-button .svg {
+      width: 15px;
+      fill: hsl(234, 69%, 58%);
+    }
+    .bottom .social-buttons-container .social-button:hover {
+      background: black;
+    }
+    .bottom .social-buttons-container .social-button:hover .svg {
+      fill: white;
+    }
+    .bottom .social-buttons-container .social-button:active {
+      background: #4c00ff;
+    }
+    .bottom .social-buttons-container .social-button:active .svg {
+      fill: black;
+    }
+    .logo {
+      position: absolute;
+      right: 0;
+      top: 0;
+      transform-style: preserve-3d;
+    }
+    .logo .circle {
+      display: block;
+      position: absolute;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      top: 0;
+      right: 0;
+      box-shadow: rgba(100, 100, 111, 0.2) -10px 10px 20px 0px;
+      -webkit-backdrop-filter: blur(5px);
+      backdrop-filter: blur(5px);
+      background: rgba(0, 249, 203, 0.2);
+      transition: all 0.5s ease-in-out;
+    }
+    .logo .circle1 {
+      width: 170px;
+      transform: translate3d(0, 0, 20px);
+      top: 8px;
+      right: 8px;
+    }
+    .logo .circle2 {
+      width: 140px;
+      transform: translate3d(0, 0, 40px);
+      top: 10px;
+      right: 10px;
+      -webkit-backdrop-filter: blur(1px);
+      backdrop-filter: blur(1px);
+      transition-delay: 0.4s;
+    }
+    .logo .circle3 {
+      width: 110px;
+      transform: translate3d(0, 0, 60px);
+      top: 17px;
+      right: 17px;
+      transition-delay: 0.8s;
+    }
+    .logo .circle4 {
+      width: 80px;
+      transform: translate3d(0, 0, 80px);
+      top: 23px;
+      right: 23px;
+      transition-delay: 1.2s;
+    }
+    .logo .circle5 {
+      width: 50px;
+      transform: translate3d(0, 0, 100px);
+      top: 30px;
+      right: 30px;
+      display: grid;
+      place-content: center;
+      transition-delay: 1.6s;
+    }
+    .logo .circle5 .svg {
+      width: 20px;
+      fill: white;
+    }
+    .parent:hover .card {
+      transform: rotate3d(1, 1, 0, 30deg);
+      box-shadow: rgba(5, 71, 17, 0.3) 30px 50px 25px -40px, rgba(5, 71, 17, 0.1) 0px 25px 30px 0px;
+    }
+    .parent:hover .card .bottom .social-buttons-container .social-button {
+      transform: translate3d(0, 0, 50px);
+      box-shadow: rgba(5, 71, 17, 0.2) -5px 20px 10px 0px;
+    }
+    .parent:hover .card .logo .circle2 {
+      transform: translate3d(0, 0, 60px);
+    }
+    .parent:hover .card .logo .circle3 {
+      transform: translate3d(0, 0, 80px);
+    }
+    .parent:hover .card .logo .circle4 {
+      transform: translate3d(0, 0, 100px);
+    }
+    .parent:hover .card .logo .circle5 {
+      transform: translate3d(0, 0, 120px);
+    }
+    
+    /* Animation for clicking on CTA button */
+    @keyframes scrollToServices {
+      0% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(20px);
+      }
+      100% {
+        transform: translateY(0);
+      }
+    }
+    .btn-animation {
+      animation: scrollToServices 1s ease-in-out;
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="logo-container">
+      <img src="images/logocutted.png" alt="Company Logo" class="logo-image">
+      <h2 class="company-name">Solution &amp; Network</h2>
+    </div>
+  </header>
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Discover Tech Solutions</h1>
+      <p>
+        Discover your MOAT and go beyond competition by acquiring cutting edge technology.
+      </p>
+      <button class="cta-button" id="exploreBtn">Explore Services</button>
+    </div>
+  </section>
+  <section class="services" id="services">
+    <div class="service-card">
+      <h3>R&D Solutions discovery with our AI agent</h3>
+      <p>Cutting-edge research and development services to innovate your business.</p>
+    </div>
+    <div class="service-card">
+      <h3>Find Partners</h3>
+      <p>Connect with strategic partners/investors for your solutions or inventions.</p>
+    </div>
+    <div class="service-card">
+      <h3>Omni-channel retail distribution Infrastructure</h3>
+      <p>Seamless customer experiences across all your channels.</p>
+    </div>
+  </section>
+
+  <!-- Animation Card Section -->
+  <section class="animation-card-section">
+    <div class="parent">
+      <div class="card">
+        <div class="glass"></div>
+        <div class<div class="glass"></div>
+        <div class="content">
+          <span class="title">Solution & Network</span>
+          <span class="text">Develop your MOAT with SANtech</span>
+        </div>
+        <div class="bottom">
+          <div class="view-more">
+            <button class="view-more-button">View more</button>
+            <svg class="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path d="M13.172 12l-4.95-4.95 1.414-1.414L16 12l-6.364 6.364-1.414-1.414z"></path></svg>
+          </div>
+          <div class="social-buttons-container">
+            <button class="social-button">
+              <svg class="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path d="M12 2.02c-5.514 0-10 4.486-10 10 0 4.896 3.659 9.043 8.5 9.95v-7H7.5v-3h3V9.511C10.5 7.723 11.781 6.5 13.5 6.5h2v3h-1.5v3H16v3h-2.53v7c4.841-.907 8.5-5.054 8.5-9.95 0-5.514-4.486-10-10-10z"></path></svg>
+            </button>
+            <button class="social-button">
+              <svg class="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path d="M12 2.02c-5.514 0-10 4.486-10 10 0 4.896 3.659 9.043 8.5 9.95v-7H7.5v-3h3V9.511C10.5 7.723 11.781 6.5 13.5 6.5h2v3h-1.5v3H16v3h-2.53v7c4.841-.907 8.5-5.054 8.5-9.95 0-5.514-4.486-10-10-10z"></path></svg>
+            </button>
+            <button class="social-button">
+              <svg class="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path d="M12 2.02c-5.514 0-10 4.486-10 10 0 4.896 3.659 9.043 8.5 9.95v-7H7.5v-3h3V9.511C10.5 7.723 11.781 6.5 13.5 6.5h2v3h-1.5v3H16v3h-2.53v7c4.841-.907 8.5-5.054 8.5-9.95 0-5.514-4.486-10-10-10z"></path></svg>
+            </button>
+          </div>
+        </div>
+        <div class="logo">
+          <div class="circle circle1"></div>
+          <div class="circle circle2"></div>
+          <div class="circle circle3"></div>
+          <div class="circle circle4"></div>
+          <div class="circle circle5">
+            <svg class="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path d="M12 2.02c-5.514 0-10 4.486-10 10 0 4.896 3.659 9.043 8.5 9.95v-7H7.5v-3h3V9.511C10.5 7.723 11.781 6.5 13.5 6.5h2v3h-1.5v3H16v3h-2.53v7c4.841-.907 8.5-5.054 8.5-9.95 0-5.514-4.486-10-10-10z"></path></svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    &copy; 2023 Solution & Network. All rights reserved. | Contact Sales: <a href="mailto:sales@solutionandnetwork.com" style="color:white;">sales@solutionandnetwork.com</a>
+  </footer>
+
+  <script>
+    // Scroll to services section with animation when Explore Services button is clicked
+    const exploreBtn = document.getElementById('exploreBtn');
+    const servicesSection = document.getElementById('services');
+    
+    exploreBtn.addEventListener('click', function() {
+      // Add animation class to button
+      this.classList.add('btn-animation');
+      
+      // Remove animation class after animation completes
+      setTimeout(() => {
+        this.classList.remove('btn-animation');
+      }, 1000);
+      
+      // Scroll to services section after a slight delay
+      setTimeout(() => {
+        servicesSection.scrollIntoView({ behavior: 'smooth' });
+      }, 300);
+    });
+  </script>
+</body>
+</html>
